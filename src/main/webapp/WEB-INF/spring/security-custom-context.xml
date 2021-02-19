@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" >
+   
+	<http auto-config="true" use-expressions="true">
+		<intercept-url pattern="/login/loginForm" access="permitAll" />
+        <intercept-url pattern="/" access="permitAll" />
+        <intercept-url pattern="/user/**" access="permitAll" />
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/**" access="hasAnyRole('ROLE_USER, ROLE_ADMIN')" />
+		
+		<!--  법칙이있다 적어주는 순서가있다. 논리적으로 제한이 좁은데서 큰쪽으로 가게 써준다. 하나씩 걸러낼 수 있도록. 반대로 작성하면 순환참조(?)가 일어날 수 있다.-->
+		
+ 		<intercept-url pattern="/security/all" access="permitAll" />
+ 		<intercept-url pattern="/security/all" access="permitAll" />
+		<intercept-url pattern="/security/member" access="hasRole('ROLE_MEMBER')" />
+		<intercept-url pattern="/security/admin" access="hasRole('ROLE_ADMIN')" />  
+					
+      <!--로그인 페이지 커스텀 화    -->
+      <form-login login-page="/login/loginForm"
+                    default-target-url="/"
+                    authentication-failure-url="/login/loginForm?error"
+                    username-parameter="id"
+                    password-parameter="password" />
+      
+      <logout logout-url="/logout" logout-success-url="/" /> 
+                
+      <!-- 403 에러 처리 -->
+      <access-denied-handler error-page="/login/accessDenied"/>      
+   </http> 
+   
+   <beans:bean id="bcryptPasswordEncoder"
+      class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+      
+   <beans:bean id="customNoOpPasswordEncoder" class="edu.bit.ex.security.CustomNoOpPasswordEncoder"/>
+    <beans:bean id="memberDetailsService" class="edu.bit.ex.security.MemberDetailsService" />  <!-- 이거를 아래로 끌고와서 -->
+
+   <authentication-manager>
+      <authentication-provider user-service-ref="memberDetailsService"> <!-- ㅡMmberDetailsService 객체생성하는것-->
+         <password-encoder ref="customNoOpPasswordEncoder"/>      
+      </authentication-provider>
+   </authentication-manager>
+    
+</beans:beans>
