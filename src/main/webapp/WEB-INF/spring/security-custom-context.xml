@@ -37,10 +37,10 @@
 
       
    <beans:bean id="customNoOpPasswordEncoder" class="edu.bit.ex.security.CustomNoOpPasswordEncoder"/>
-    <beans:bean id="memberDetailsService" class="edu.bit.ex.security.MemberDetailsService" />  <!-- 이거를 아래로 끌고와서 -->
+    <beans:bean id="empDetailsService" class="edu.bit.ex.security.EmpDetailsService" />  <!-- 이거를 아래로 끌고와서 -->
 
    <authentication-manager>
-      <authentication-provider user-service-ref="memberDetailsService"> <!-- ㅡMmberDetailsService 객체생성하는것-->
+      <authentication-provider user-service-ref="empDetailsService"> <!-- ㅡMmberDetailsService 객체생성하는것-->
          <password-encoder ref="customNoOpPasswordEncoder"/>      
       </authentication-provider>
    </authentication-manager>
