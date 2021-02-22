@@ -18,6 +18,23 @@
 <%-- <p>principal: <sec:authentication property="principal.member.password"/></p>
 <p>principal: <sec:authentication property="principal.member.enabled"/></p> --%>
 
+<!-- 로그인 하지 않은 모든 사용자(로그인 중인 사용자에게는 보이지 않음 -->
+<sec:suthorize access="isAnonymous()">
+	<a herf="/login">로그인</a>
+	회원가입
+</sec:suthorize>
+
+<!-- 로그인 중인 사용자 -->
+<sec:authorize access="isAuthenticated()">
+	로그아웃
+	회원정보보기
+</sec:authorize>
+
+<!-- 관리자 페이지 -->
+<sec:authorize access="hasRole('admin')">
+	관리자 페이지
+</sec:authorize>
+
 <p>EmpVO: <sec:authentication property="principal.emp"/></p>
 <p>사용자이름: <sec:authentication property="principal.emp.ename"/></p>
 <p>사용자월급: <sec:authentication property="principal.emp.sal"/></p>

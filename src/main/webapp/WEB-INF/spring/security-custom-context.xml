@@ -5,7 +5,11 @@
    xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" >
    
-	<http auto-config="true" use-expressions="true">
+	<!-- <http auto-config="true" use-expressions="true"> -->
+	<http>
+		<csrf disabled="false" /> 
+		<!-- true는 csrf를 적용하지 않겠다. 그래서 default는 false이다. 
+		     생략하더라도 이게(<csrf disabled="false" />) 적용이된다. -->
 		<intercept-url pattern="/login/loginForm" access="permitAll" />
         <intercept-url pattern="/" access="permitAll" />
         <intercept-url pattern="/user/**" access="permitAll" />
