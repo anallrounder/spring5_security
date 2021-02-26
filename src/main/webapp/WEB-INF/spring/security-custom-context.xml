@@ -28,7 +28,7 @@
                     default-target-url="/"
                     authentication-failure-url="/login/loginForm?error"
                     username-parameter="id"
-                    password-parameter="password" />
+                    password-parameter="password" /> 
       
       <logout logout-url="/logout" logout-success-url="/" /> 
                 
